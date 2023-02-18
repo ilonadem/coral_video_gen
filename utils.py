@@ -12,6 +12,17 @@ from matplotlib.animation import FFMpegWriter
 
 from functools import partial
 
+def est_to_pst(pst_h, pst_d):
+    est_hour = str((int(pst_h)-5)%24)
+    if int(est_hour) < 10:
+        est_hour = '0' + est_hour
+    if int(pst_h)<6:
+        est_day = '0' + str(int(pst_d)-1)
+    else:
+        est_day = pst_d
+
+    return est_hour, est_day
+
 def listdir(path):
     return glob.glob(os.path.join(path, '*'))
 
