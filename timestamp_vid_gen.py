@@ -28,7 +28,7 @@ def animate3(frame, coral_df, fig, ax, times, plot_title, fps, est_times, detect
         ax.scatter(x=x_coords, y=y_coords, color='blue')
         # ax.text(430.0, 20.0, f"time: {timestamp}")
         ax.text(430.0, 20.0, f"time: {est_timestamp}", color='red')
-        ax.text(430.0, 40.0, f'fps: {str(fps)[:5]}')
+        ax.text(430.0, 40.0, f'avg fps: {str(fps)[:5]}')
         for i,j in num_edges:
             if probs[i] > detection_threshold and probs[j] > detection_threshold:
                 xs, ys = [all_x_coords[i], all_x_coords[j]], [all_y_coords[i], all_y_coords[j]]
@@ -62,13 +62,13 @@ def make_vid_of_hour(coral, year, month, day, hour):
                                 plot_title=plot_title,
                                 fps = fps,
                                 est_times = [est_hour, est_day]), 
-                        # frames=len(times)-1,
-                        frames=20
+                        frames=len(times)-1,
+                        # frames=20
                         )
 
     # save animation
     f = f"../compton-vids/{coral}/{est_day}_{est_hour}.mp4"
-    writervideo = FFMpegWriter(fps=30)
+    writervideo = FFMpegWriter(fps=int(fps))
     ani.save(f, writer=writervideo)
 
 corals = [
@@ -76,7 +76,11 @@ corals = [
             'elusive_tang', 
             'jumbo_orange'
             ]
-days = ['08']
+days = [
+	'04', '05', '06',
+	#'07', '08', '09', '10', 
+        #'11', '12', '13', '14', '15', '16', '17', '18'
+	]
 hours = [
         '00', '01', '02', '03', '04', 
         '05', '06', '07', '08', '09', '10', 
@@ -88,6 +92,7 @@ for c in corals:
     for d in days:
         for h in hours:
             file_dir = f'../COMPTON_DATA_2023/{c}/2023/02/{d}/{h}'
+	    print(file_dir)
             if os.path.exists(file_dir):
                 make_vid_of_hour(c, '2023', '02', d, h)
 

@@ -5,5 +5,5 @@ curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-
 tar -xf google-cloud-cli-418.0.0-linux-x86.tar.gz
 
 # add google cloud CLI to path
-bash ./google-cloud-sdk/install.sh
+# bash ./google-cloud-sdk/install.sh
 
