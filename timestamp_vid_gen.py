@@ -21,21 +21,20 @@ def animate3(frame, coral_df, fig, ax, times, plot_title, fps, est_times, detect
         for kp in keypoints:
             all_x_coords.append(pose[kp][0])
             all_y_coords.append(pose[kp][1])
-            probs.append(pose[kp][2])
             # probs.append(0.1)
 
             if pose[kp][2] > detection_threshold:
                 x_coords.append(pose[kp][0])
                 y_coords.append(pose[kp][1])
-        sp = ax.scatter(x=x_coords, y=y_coords, c=probs, cmap='RdBu')
+        sp = ax.scatter(x=x_coords, y=y_coords, color='blue')
         # plt.colorbar()
         # ax.text(430.0, 20.0, f"time: {timestamp}")
         ax.text(430.0, 20.0, f"time: {est_timestamp}", color='red')
         ax.text(430.0, 40.0, f'avg fps: {str(fps)[:5]}')
         for i,j in num_edges:
-            if probs[i] > detection_threshold and probs[j] > detection_threshold:
-                xs, ys = [all_x_coords[i], all_x_coords[j]], [all_y_coords[i], all_y_coords[j]]
-                plt.plot(xs, ys, color='black')
+            # if probs[i] > detection_threshold and probs[j] > detection_threshold:
+            xs, ys = [all_x_coords[i], all_x_coords[j]], [all_y_coords[i], all_y_coords[j]]
+            plt.plot(xs, ys, color='black')
         ax.set_xlim([0, width])
     ax.set_ylim([height, 0])
     # fig.colorbar(sp)
@@ -76,22 +75,20 @@ def make_vid_of_hour(coral, year, month, day, hour):
     ani.save(f, writer=writervideo)
 
 corals = [
-            'deft_shrimp', 
+            # 'deft_shrimp', 
             # 'elusive_tang', 
-            # 'jumbo_orange'
+            'jumbo_orange'
             ]
 days = [
-	# '04', '05', '06', '07', 
-    '08', 
-    # '09', '10', '11', '12', '13', 
-    # '14', '15', '16', '17', '18'
+	'04', '05', '06', '07',  '08', 
+    '09', '10', '11', '12', '13', 
+    '14', '15', '16', '17', '18'
 	]
 hours = [
-        # '00', '01', '02', '03', '04', 
-        # '05', '06', '07', '08', '09', '10', 
-        '11', 
-        # '12', '13', '14', '15', '16', '17', '18', '19', 
-        # '20', '21', '22', '23', '24'
+        '00', '01', '02', '03', '04', 
+        '05', '06', '07', '08', '09', '10', '11', 
+        '12', '13', '14', '15', '16', '17', '18', '19', 
+        '20', '21', '22', '23', '24'
         ]
 
 for c in corals:
