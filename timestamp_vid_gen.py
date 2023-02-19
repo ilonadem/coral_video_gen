@@ -16,16 +16,19 @@ def animate3(frame, coral_df, fig, ax, times, plot_title, fps, est_times, detect
         width, height = 640, 480
         all_x_coords, all_y_coords, probs = [], [], []
         x_coords, y_coords = [], []
+        # colors = []
 
         for kp in keypoints:
             all_x_coords.append(pose[kp][0])
             all_y_coords.append(pose[kp][1])
             probs.append(pose[kp][2])
+            # probs.append(0.1)
 
             if pose[kp][2] > detection_threshold:
                 x_coords.append(pose[kp][0])
                 y_coords.append(pose[kp][1])
-        ax.scatter(x=x_coords, y=y_coords, color='blue')
+        sp = ax.scatter(x=x_coords, y=y_coords, c=probs, cmap='RdBu')
+        # plt.colorbar()
         # ax.text(430.0, 20.0, f"time: {timestamp}")
         ax.text(430.0, 20.0, f"time: {est_timestamp}", color='red')
         ax.text(430.0, 40.0, f'avg fps: {str(fps)[:5]}')
@@ -35,7 +38,7 @@ def animate3(frame, coral_df, fig, ax, times, plot_title, fps, est_times, detect
                 plt.plot(xs, ys, color='black')
         ax.set_xlim([0, width])
     ax.set_ylim([height, 0])
-    
+    # fig.colorbar(sp)
     return ax
 
 def make_vid_of_hour(coral, year, month, day, hour):
@@ -65,7 +68,8 @@ def make_vid_of_hour(coral, year, month, day, hour):
                         frames=len(times)-1,
                         # frames=20
                         )
-
+    # plt.colorbar()
+    
     # save animation
     f = f"../compton-vids/{coral}/{est_day}_{est_hour}.mp4"
     writervideo = FFMpegWriter(fps=int(fps))
@@ -73,26 +77,28 @@ def make_vid_of_hour(coral, year, month, day, hour):
 
 corals = [
             'deft_shrimp', 
-            'elusive_tang', 
-            'jumbo_orange'
+            # 'elusive_tang', 
+            # 'jumbo_orange'
             ]
 days = [
-	'04', '05', '06',
-	#'07', '08', '09', '10', 
-        #'11', '12', '13', '14', '15', '16', '17', '18'
+	# '04', '05', '06', '07', 
+    '08', 
+    # '09', '10', '11', '12', '13', 
+    # '14', '15', '16', '17', '18'
 	]
 hours = [
-        '00', '01', '02', '03', '04', 
-        '05', '06', '07', '08', '09', '10', 
-        '11', '12', '13', '14', '15', '16', '17', '18', '19', 
-        '20', '21', '22', '23', '24'
+        # '00', '01', '02', '03', '04', 
+        # '05', '06', '07', '08', '09', '10', 
+        '11', 
+        # '12', '13', '14', '15', '16', '17', '18', '19', 
+        # '20', '21', '22', '23', '24'
         ]
 
 for c in corals:
     for d in days:
         for h in hours:
             file_dir = f'../COMPTON_DATA_2023/{c}/2023/02/{d}/{h}'
-	    print(file_dir)
+            # print(file_dir)
             if os.path.exists(file_dir):
                 make_vid_of_hour(c, '2023', '02', d, h)
 
